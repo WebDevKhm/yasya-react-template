@@ -1,9 +1,11 @@
-import friendsList from "./data/friends.json";
-import Friends from "./components/Friends";
+import "./app.css";
+import ToDoList from "./components/ToDoList";
 
 const App = () => {
   return (
-    <Friends itemsArray={friendsList}/>
+    <>
+      <ToDoList />
+    </>
   )
 }
 

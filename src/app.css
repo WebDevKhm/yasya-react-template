@@ -1,0 +1,35 @@
+@import-normalize; /* bring in normalize.css styles */
+
+.statistic{
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+}
+
+.statistic h2{
+  text-align: center;
+  text-transform: uppercase;
+  color: grey;
+  background: white;
+  font-family: Roboto;
+  padding-left: 0;
+}
+
+.statistic ul{
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding-left: 0;
+}
+
+.statistic ul li{
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  text-align: center;
+  color: #fff;
+  padding: 10px 5px;
+}
+
