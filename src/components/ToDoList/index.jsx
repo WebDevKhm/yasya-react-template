@@ -1,19 +1,48 @@
 import {useState} from "react";
 import addItemForList from "./utils/addItemForList";
 import removeItemsFromList from "./utils/removeItemsFromList";
-import isDoneItem from "./utils/isDone";
-import {Button, Wrapper, Form, Input, Label, AddNew, List} from "../styled/styles";
+import {Button, Wrapper, Form, Input, Label, AddNew, List, CheckBox, ListItem} from "../styled/styles";
 import Sorting from "../Sorting";
+import * as PropTypes from "prop-types";
 
+function Checkbox(props) {
+  return null;
+}
+
+Checkbox.propTypes = {
+  onChange: PropTypes.func,
+  label: PropTypes.string
+};
 const ToDoList = () => {
 
   const [taskToDo, setTask] = useState('');
   const [dateToDo, setDate] = useState('');
   const [messages, setMessage] = useState([])
+  const [isCheckedList, setCheckedList] = useState([]);
+
+  function Checkbox(props) {
+    return null;
+  }
+
+  Checkbox.propTypes = {
+    onChange: PropTypes.func,
+    label: PropTypes.string
+  };
 
   const formSubmission = (e) => {
     e.preventDefault();
     addItemForList(setMessage, messages, taskToDo, dateToDo);
+  }
+
+  const handleOnChange = (idx) => {
+    let newCheckedList = [...isCheckedList];
+    newCheckedList[idx] = !newCheckedList[idx];
+    setCheckedList(newCheckedList);
+  }
+
+  const handleOnRemove = (idx) => {
+    removeItemsFromList(idx, messages, setMessage);
+    removeItemsFromList(idx, isCheckedList, setCheckedList);
   }
 
   const renderItems = messages.map((item, idx) => {
@@ -22,12 +51,15 @@ const ToDoList = () => {
         textDecoration: 'line-through\n'
       }
     }
+    console.log(isCheckedList);
     return (
-      <li style={item.isDone && doneStyle.markItem} key={idx + 1}>
-        {item.taskName} - {item.taskDate}
-        <Button onClick={() => isDoneItem(idx, messages, setMessage)}>Mark as Done</Button>
-        <Button primary onClick={() => removeItemsFromList(idx, messages, setMessage)}>Remove Item</Button>
-      </li>
+      <ListItem key={idx + 1}>
+        <p style={isCheckedList[idx] ? doneStyle.markItem : {}}>{item.taskName} - {item.taskDate}</p>
+        <label>
+          <CheckBox type="checkbox" checked={isCheckedList[idx]} onChange={() => handleOnChange(idx)}/>
+        </label>
+        <Button primary onClick={() => handleOnRemove(idx)}>Remove Item</Button>
+      </ListItem>
     )
   })
 

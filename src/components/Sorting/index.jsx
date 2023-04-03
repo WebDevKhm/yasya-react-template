@@ -1,5 +1,4 @@
 import {Button} from "../styled/styles";
-import {logDOM} from "@testing-library/react";
 
 const initSort = (arrayObjects, setNewList) => {
   const sortedArray = [...arrayObjects].sort((a, b) => {
