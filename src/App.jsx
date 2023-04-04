@@ -1,12 +1,12 @@
-import "./app.css";
-import ToDoList from "./components/ToDoList";
+import './app.css';
+import ToDoList from './components/ToDoList';
 
 const App = () => {
   return (
     <>
       <ToDoList />
     </>
-  )
-}
+  );
+};
 
 export default App;

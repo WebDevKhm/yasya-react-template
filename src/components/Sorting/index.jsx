@@ -1,4 +1,4 @@
-import {Button} from "../styled/styles";
+import { Button } from '../styled/styles';
 
 const initSort = (arrayObjects, setNewList) => {
   const sortedArray = [...arrayObjects].sort((a, b) => {
@@ -7,15 +7,21 @@ const initSort = (arrayObjects, setNewList) => {
     return dateA - dateB;
   });
   setNewList(sortedArray);
-}
+};
 
-const Sorting = ({arrayObjects, setNewList}) => {
-  return (<div>
-    <Button primary onClick={() => {
-      initSort(arrayObjects, setNewList)
-    }}>Sort by date</Button>
-  </div>)
-
-}
+const Sorting = ({ arrayObjects, setNewList }) => {
+  return (
+    <div>
+      <Button
+        primary
+        onClick={() => {
+          initSort(arrayObjects, setNewList);
+        }}
+      >
+        Sort by date
+      </Button>
+    </div>
+  );
+};
 
 export default Sorting;
