@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/yasya-react-template/static/css/main.1738411a.css",
-    "main.js": "/yasya-react-template/static/js/main.c6c1830f.js",
+    "main.css": "/yasya-react-template/static/css/main.3ef6ebe6.css",
+    "main.js": "/yasya-react-template/static/js/main.347d75f2.js",
     "index.html": "/yasya-react-template/index.html",
-    "main.1738411a.css.map": "/yasya-react-template/static/css/main.1738411a.css.map",
-    "main.c6c1830f.js.map": "/yasya-react-template/static/js/main.c6c1830f.js.map"
+    "main.3ef6ebe6.css.map": "/yasya-react-template/static/css/main.3ef6ebe6.css.map",
+    "main.347d75f2.js.map": "/yasya-react-template/static/js/main.347d75f2.js.map"
   },
   "entrypoints": [
-    "static/css/main.1738411a.css",
-    "static/js/main.c6c1830f.js"
+    "static/css/main.3ef6ebe6.css",
+    "static/js/main.347d75f2.js"
   ]
 }
