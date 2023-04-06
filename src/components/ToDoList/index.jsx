@@ -13,7 +13,6 @@ import {
   CheckBox,
   ListItem,
   TextArea,
-  // WrapItemTask,
   Paragraph,
 } from '../styled/styles.jsx';
 
@@ -45,14 +44,8 @@ const ToDoList = () => {
 
   useEffect(() => {
     setFilteredMessage(messages);
+    console.log(isCheckedList);
   }, [messages]);
-
-  useEffect(() => {
-    const filteredCheckedList = isCheckedList.filter(
-      (item) => item !== undefined
-    );
-    setCheckedList(filteredCheckedList);
-  }, [messages, setCheckedList, isCheckedList]);
 
   useEffect(() => {
     if (currentValue) {
