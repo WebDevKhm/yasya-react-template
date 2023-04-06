@@ -31,6 +31,23 @@ export const Input = styled.input`
   }
 `;
 
+export const TextArea = styled.textarea`
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  color: #101828;
+  font-size: 18px;
+  padding: 10px;
+  margin-top: 5px;
+  transition: 0.3s easy-in-out;
+
+  :focus-visible,
+  :active {
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f4ebff;
+    ouline: none;
+  }
+`;
+
 export const Label = styled.label`
   display: flex;
   flex-direction: column;
@@ -61,12 +78,12 @@ export const Form = styled.form`
 
 export const Wrapper = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin: 0 auto;
-  padding: 10px;
+  padding: 0 16px;
 `;
 
 export const AddNew = styled.button`
@@ -126,6 +143,7 @@ export const WrapItemTask = styled.div`
 export const Paragraph = styled.p`
   display: flex;
   width: 100%;
+  max-width: 250px;
   font-size: 18px;
   margin: 0;
 `;

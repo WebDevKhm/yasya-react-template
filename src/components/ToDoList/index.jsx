@@ -12,14 +12,13 @@ import {
   List,
   CheckBox,
   ListItem,
-  WrapItemTask,
+  TextArea,
+  // WrapItemTask,
   Paragraph,
 } from '../styled/styles.jsx';
-import Sorting from '../Sorting/index.jsx';
 
 const ToDoList = () => {
   const [taskToDo, setTask] = useState('');
-  const [dateToDo, setDate] = useState('');
   const [messages, setMessage] = useState([]);
   const [filteredMessage, setFilteredMessage] = useState([]);
   const [isCheckedList, setCheckedList] = useState([]);
@@ -28,7 +27,7 @@ const ToDoList = () => {
 
   const formSubmission = (e) => {
     e.preventDefault();
-    addItemForList(setMessage, messages, taskToDo, dateToDo);
+    addItemForList(setMessage, messages, taskToDo, setTask);
     setCheckedList((prev) => [...prev, false]);
   };
 
@@ -95,16 +94,14 @@ const ToDoList = () => {
           />
         </label>
         <Paragraph style={isCheckedList[idx] ? doneStyle.markItem : {}}>
-          {item.taskName} {item.taskDate}
+          {item.taskName}
         </Paragraph>
-        <WrapItemTask>
-          <Button noMargin onClick={() => handleGetCurrentValue(idx)}>
-            Edit
-          </Button>
-          <Button noMargin onClick={() => handleOnRemove(idx)}>
-            Remove Item
-          </Button>
-        </WrapItemTask>
+        <Button noMargin onClick={() => handleGetCurrentValue(idx)}>
+          Edit
+        </Button>
+        <Button noMargin onClick={() => handleOnRemove(idx)}>
+          Remove Item
+        </Button>
       </ListItem>
     );
   });
@@ -116,30 +113,19 @@ const ToDoList = () => {
           action=""
           onSubmit={isEditting ? formSubmissionUpdate : formSubmission}
         >
-          <Label>
+          <Label full>
             Task Name
-            <Input
-              type="text"
+            <TextArea
               onChange={(event) => setTask(event.target.value)}
               value={taskToDo}
             />
           </Label>
-          <Label>
-            Date of ToDo
-            <Input
-              type="date"
-              onChange={(event) => setDate(event.target.value)}
-              value={dateToDo}
-            />
-          </Label>
-          <Wrapper>
-            <AddNew>{isEditting ? 'Confirm' : 'Add Task'}</AddNew>
-            {isEditting ? (
-              <AddNew onClick={() => setIsEditing(false)}>Cancel</AddNew>
-            ) : (
-              ''
-            )}
-          </Wrapper>
+          <AddNew>{isEditting ? 'Confirm' : 'Add Task'}</AddNew>
+          {isEditting ? (
+            <AddNew onClick={() => setIsEditing(false)}>Cancel</AddNew>
+          ) : (
+            ''
+          )}
         </Form>
         <Label full>
           Search task
@@ -151,18 +137,7 @@ const ToDoList = () => {
             }
           />
         </Label>
-        {filteredMessage.length > 0 ? (
-          <List>
-            {renderItems}
-            {dateToDo.length > 0 ? (
-              <Sorting arrayObjects={filteredMessage} setNewList={setMessage} />
-            ) : (
-              ''
-            )}
-          </List>
-        ) : (
-          ''
-        )}
+        {filteredMessage.length > 0 ? <List>{renderItems}</List> : ''}
       </Wrapper>
     </>
   );
