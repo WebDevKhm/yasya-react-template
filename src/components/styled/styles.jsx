@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 export const Button = styled.button`
   /* Adapt the colors based on primary prop */
-  background: ${props => (props.primary ? '#FFFFFF' : '#000000')};
-  color: ${props => (props.primary ? '#000' : '#fff')};
+  background: ${(props) => (props.primary ? '#FFFFFF' : '#000000')};
+  color: ${(props) => (props.primary ? '#000' : '#fff')};
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  margin: ${props => (props.noMargin ? '0 5px' : '5px')};
+  margin: ${(props) => (props.noMargin ? '0 5px' : '5px')};
   padding: 0.25em 1em;
   cursor: pointer;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
@@ -38,7 +38,7 @@ export const Label = styled.label`
   font-weight: 600;
   margin-bottom: 2%;
   margin-top: 2%;
-  width: ${props => (props.full ? '100%' : '49%')};
+  width: ${(props) => (props.full ? '100%' : '49%')};
   ::placeholder {
     color: palevioletred;
   }

@@ -1,3 +1,3 @@
-export const LoadingImage = svgFormat => {
+export const LoadingImage = (svgFormat) => {
   return svgFormat;
 };

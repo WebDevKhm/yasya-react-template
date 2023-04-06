@@ -1,4 +1,5 @@
-import { Button } from '../styled/styles';
+import { Button } from '../styled/styles.jsx';
+import propTypes from 'prop-types';
 
 const initSort = (arrayObjects, setNewList) => {
   const sortedArray = [...arrayObjects].sort((a, b) => {
@@ -22,6 +23,11 @@ const Sorting = ({ arrayObjects, setNewList }) => {
       </Button>
     </div>
   );
+};
+
+Sorting.propTypes = {
+  arrayObjects: propTypes.array.isRequired,
+  setNewList: propTypes.func.isRequired,
 };
 
 export default Sorting;

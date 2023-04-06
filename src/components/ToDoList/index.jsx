@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import addItemForList from './utils/addItemForList';
-import removeItemsFromList from './utils/removeItemsFromList';
+import addItemForList from './utils/addItemForList.jsx';
+import removeItemsFromList from './utils/removeItemsFromList.jsx';
 import handleSearchToDoItem from './utils/searchItemsFromList.jsx';
 import {
   Button,
@@ -14,8 +14,8 @@ import {
   ListItem,
   WrapItemTask,
   Paragraph,
-} from '../styled/styles';
-import Sorting from '../Sorting';
+} from '../styled/styles.jsx';
+import Sorting from '../Sorting/index.jsx';
 
 const ToDoList = () => {
   const [taskToDo, setTask] = useState('');
@@ -26,18 +26,19 @@ const ToDoList = () => {
   const [currentValue, setCurrentValue] = useState('');
   const [isEditting, setIsEditing] = useState(false);
 
-  const formSubmission = e => {
+  const formSubmission = (e) => {
     e.preventDefault();
     addItemForList(setMessage, messages, taskToDo, dateToDo);
-    setCheckedList(prev => [...prev, false]);
+    setCheckedList((prev) => [...prev, false]);
   };
 
-  const formSubmissionUpdate = e => {
+  const formSubmissionUpdate = (e) => {
     e.preventDefault();
-    messages.map(item => {
+    messages.map((item) => {
       if (item.id === currentValue.id) {
         item.taskName = taskToDo;
       }
+      return item;
     });
     setTask('');
     setIsEditing(false);
@@ -48,9 +49,11 @@ const ToDoList = () => {
   }, [messages]);
 
   useEffect(() => {
-    const filteredCheckedList = isCheckedList.filter(item => item !== undefined);
+    const filteredCheckedList = isCheckedList.filter(
+      (item) => item !== undefined
+    );
     setCheckedList(filteredCheckedList);
-  }, [messages, setCheckedList]);
+  }, [messages, setCheckedList, isCheckedList]);
 
   useEffect(() => {
     if (currentValue) {
@@ -58,18 +61,18 @@ const ToDoList = () => {
     }
   }, [currentValue]);
 
-  const handleOnChangeCheckbox = idx => {
-    let newCheckedList = [...isCheckedList];
+  const handleOnChangeCheckbox = (idx) => {
+    const newCheckedList = [...isCheckedList];
     newCheckedList.splice(idx, 1, !isCheckedList[idx]);
     setCheckedList(newCheckedList);
   };
 
-  const handleOnRemove = idx => {
+  const handleOnRemove = (idx) => {
     removeItemsFromList(idx, messages, setMessage);
     removeItemsFromList(idx, isCheckedList, setCheckedList);
   };
 
-  const handleGetCurrentValue = idx => {
+  const handleGetCurrentValue = (idx) => {
     setIsEditing(true);
     const newTodos = [...messages];
     setCurrentValue(newTodos[idx]);
@@ -109,24 +112,43 @@ const ToDoList = () => {
   return (
     <>
       <Wrapper>
-        <Form action="" onSubmit={isEditting ? formSubmissionUpdate : formSubmission}>
+        <Form
+          action=""
+          onSubmit={isEditting ? formSubmissionUpdate : formSubmission}
+        >
           <Label>
             Task Name
-            <Input type="text" onChange={event => setTask(event.target.value)} value={taskToDo} />
+            <Input
+              type="text"
+              onChange={(event) => setTask(event.target.value)}
+              value={taskToDo}
+            />
           </Label>
           <Label>
             Date of ToDo
-            <Input type="date" onChange={event => setDate(event.target.value)} value={dateToDo} />
+            <Input
+              type="date"
+              onChange={(event) => setDate(event.target.value)}
+              value={dateToDo}
+            />
           </Label>
-          <AddNew>{isEditting ? 'Confirm' : 'Add Task'}</AddNew>
-          {isEditting ? <AddNew onClick={() => setIsEditing(false)}>Cancel</AddNew> : ''}
+          <Wrapper>
+            <AddNew>{isEditting ? 'Confirm' : 'Add Task'}</AddNew>
+            {isEditting ? (
+              <AddNew onClick={() => setIsEditing(false)}>Cancel</AddNew>
+            ) : (
+              ''
+            )}
+          </Wrapper>
         </Form>
         <Label full>
           Search task
           <Input
             type="text"
             placeholder="Search"
-            onChange={event => handleSearchToDoItem(event, messages, setFilteredMessage)}
+            onChange={(event) =>
+              handleSearchToDoItem(event, messages, setFilteredMessage)
+            }
           />
         </Label>
         {filteredMessage.length > 0 ? (
