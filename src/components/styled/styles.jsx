@@ -146,4 +146,5 @@ export const Paragraph = styled.p`
   max-width: 250px;
   font-size: 18px;
   margin: 0;
+  margin-right: auto;
 `;
