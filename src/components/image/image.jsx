@@ -1,28 +1,22 @@
-import React from "react";
+import React from 'react';
 
 const styles = {
   wrapper: {
     width: '100%',
-    maxWidth: '300px',
-    height: '300px',
+    maxWidth: '30px',
+    height: '30px',
     overflow: 'hidden',
-    borderRadius: '50%'
   },
   img: {
     width: '100%',
-    // objectFit: 'cover',
-    objectPosition: 'center'
-  }
-}
+    objectPosition: 'center',
+  },
+};
 
-const Image = ({src, name}) => {
+const Image = ({ src, name }) => {
   return (
-    <div
-      style={styles.wrapper}
-      className={'image-user'}>
-      <img
-        style={styles.img}
-        src={src} alt={name}/>
+    <div style={styles.wrapper} className={'image-user'}>
+      <img style={styles.img} src={src} alt={name} />
     </div>
   );
 };

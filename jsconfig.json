@@ -1,11 +1,6 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "jsx": "react",
-    "jsx": "react",
-    "tsx": "react",
-    "tsx": "react",
-    "tsx": "react",
     "baseUrl": "src"
   },
   "include": ["src"]

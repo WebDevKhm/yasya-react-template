@@ -2,26 +2,32 @@ import styled from 'styled-components';
 
 export const Button = styled.button`
   /* Adapt the colors based on primary prop */
-  background: ${props => (props.primary ? 'palevioletred' : 'white')};
-  color: ${props => (props.primary ? 'white' : 'palevioletred')};
-  font-size: 1em;
-  margin: 5px;
+  background: ${props => (props.primary ? '#FFFFFF' : '#000000')};
+  color: ${props => (props.primary ? '#000' : '#fff')};
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin: ${props => (props.noMargin ? '0 5px' : '5px')};
   padding: 0.25em 1em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;
   cursor: pointer;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
 `;
 
 export const Input = styled.input`
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  color: #101828;
   font-size: 18px;
   padding: 10px;
-  background: papayawhip;
-  border: none;
-  border-radius: 3px;
   margin-top: 5px;
+  transition: 0.3s easy-in-out;
 
-  ::placeholder {
-    color: palevioletred;
+  :focus-visible,
+  :active {
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f4ebff;
+    ouline: none;
   }
 `;
 
@@ -30,9 +36,9 @@ export const Label = styled.label`
   flex-direction: column;
   font-size: 16px;
   font-weight: 600;
-  width: 49%;
   margin-bottom: 2%;
-
+  margin-top: 2%;
+  width: ${props => (props.full ? '100%' : '49%')};
   ::placeholder {
     color: palevioletred;
   }
@@ -64,25 +70,32 @@ export const Wrapper = styled.div`
 `;
 
 export const AddNew = styled.button`
-  text-decoration: none;
-  width: 100%;
-  background-color: hsla(189, 85%, 28%, 1);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.0125), 0 1px 1px rgba(0, 0, 0, 0.05);
+  background: #1da1f2;
   color: #fff;
-  padding: 10px;
-  font-weight: 400;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 5px;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
-  letter-spacing: 2px;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  border: 0;
+  width: 100%;
+  transition: 0.3s easy-in-out;
 
   &:hover {
-    background-color: hsla(189, 85%, 32%, 1);
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    background: #0c8bd9;
   }
 `;
 
 export const List = styled.ul`
   list-style: none;
   padding-left: 0;
+  width: 100%;
+  border: 1px solid;
+  border-radius: 8px;
 `;
 
 export const CheckBox = styled.input`
@@ -98,4 +111,21 @@ export const CheckBox = styled.input`
 export const ListItem = styled.li`
   display: flex;
   align-items: center;
+  padding: 5px;
+  border-bottom: 1px solid;
+`;
+
+export const WrapItemTask = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-left: auto;
+  justify-content: flex-end;
+`;
+
+export const Paragraph = styled.p`
+  display: flex;
+  width: 100%;
+  font-size: 18px;
+  margin: 0;
 `;

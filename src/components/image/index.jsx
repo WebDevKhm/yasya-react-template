@@ -1,12 +1,11 @@
-import React from "react";
-import Image from "./image";
+import React from 'react';
+import Image from './image';
 
-const Img = (src) => {
+const Img = src => {
   return (
     // @ts-ignore
-    <Image src={src.src} alt={src.alt}/>
-  )
-}
+    <Image src={src.src} alt={src.alt} />
+  );
+};
 
 export default Img;
-

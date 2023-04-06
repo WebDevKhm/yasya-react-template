@@ -1,6 +1,6 @@
 @import-normalize; /* bring in normalize.css styles */
 
-.statistic{
+.statistic {
   width: 100%;
   max-width: 500px;
   display: flex;
@@ -8,7 +8,7 @@
   padding-left: 0;
 }
 
-.statistic h2{
+.statistic h2 {
   text-align: center;
   text-transform: uppercase;
   color: grey;
@@ -17,14 +17,14 @@
   padding-left: 0;
 }
 
-.statistic ul{
+.statistic ul {
   display: flex;
   justify-content: center;
   list-style: none;
   padding-left: 0;
 }
 
-.statistic ul li{
+.statistic ul li {
   display: flex;
   flex-direction: column;
   width: 20%;
@@ -32,4 +32,3 @@
   color: #fff;
   padding: 10px 5px;
 }
-

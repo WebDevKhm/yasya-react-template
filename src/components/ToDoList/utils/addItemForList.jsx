@@ -3,7 +3,7 @@ const addItemForList = (setMessageState, messages, name, date) => {
     alert('Name of item is empty');
     return;
   }
-  setMessageState([...messages, { taskName: name, taskDate: date }]);
+  setMessageState([...messages, { id: messages.length + 1, taskName: name, taskDate: date }]);
 };
 
 export default addItemForList;

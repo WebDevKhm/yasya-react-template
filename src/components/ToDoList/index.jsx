@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import addItemForList from './utils/addItemForList';
 import removeItemsFromList from './utils/removeItemsFromList';
+import handleSearchToDoItem from './utils/searchItemsFromList.jsx';
 import {
   Button,
   Wrapper,
@@ -11,6 +12,8 @@ import {
   List,
   CheckBox,
   ListItem,
+  WrapItemTask,
+  Paragraph,
 } from '../styled/styles';
 import Sorting from '../Sorting';
 
@@ -18,15 +21,44 @@ const ToDoList = () => {
   const [taskToDo, setTask] = useState('');
   const [dateToDo, setDate] = useState('');
   const [messages, setMessage] = useState([]);
-  const [isCheckedList, setCheckedList] = useState([false]);
+  const [filteredMessage, setFilteredMessage] = useState([]);
+  const [isCheckedList, setCheckedList] = useState([]);
+  const [currentValue, setCurrentValue] = useState('');
+  const [isEditting, setIsEditing] = useState(false);
 
   const formSubmission = e => {
     e.preventDefault();
     addItemForList(setMessage, messages, taskToDo, dateToDo);
-    addItemForList(setMessage, messages, taskToDo, dateToDo);
+    setCheckedList(prev => [...prev, false]);
   };
 
-  const handleOnChange = idx => {
+  const formSubmissionUpdate = e => {
+    e.preventDefault();
+    messages.map(item => {
+      if (item.id === currentValue.id) {
+        item.taskName = taskToDo;
+      }
+    });
+    setTask('');
+    setIsEditing(false);
+  };
+
+  useEffect(() => {
+    setFilteredMessage(messages);
+  }, [messages]);
+
+  useEffect(() => {
+    const filteredCheckedList = isCheckedList.filter(item => item !== undefined);
+    setCheckedList(filteredCheckedList);
+  }, [messages, setCheckedList]);
+
+  useEffect(() => {
+    if (currentValue) {
+      setTask(currentValue.taskName);
+    }
+  }, [currentValue]);
+
+  const handleOnChangeCheckbox = idx => {
     let newCheckedList = [...isCheckedList];
     newCheckedList.splice(idx, 1, !isCheckedList[idx]);
     setCheckedList(newCheckedList);
@@ -37,7 +69,13 @@ const ToDoList = () => {
     removeItemsFromList(idx, isCheckedList, setCheckedList);
   };
 
-  const renderItems = messages.map((item, idx) => {
+  const handleGetCurrentValue = idx => {
+    setIsEditing(true);
+    const newTodos = [...messages];
+    setCurrentValue(newTodos[idx]);
+  };
+
+  const renderItems = filteredMessage.map((item, idx) => {
     const doneStyle = {
       markItem: {
         textDecoration: 'line-through\n',
@@ -45,19 +83,25 @@ const ToDoList = () => {
     };
     return (
       <ListItem key={idx + 1}>
-        <p style={isCheckedList[idx] ? doneStyle.markItem : {}}>
-          {item.taskName} - {item.taskDate}
-        </p>
         <label>
           <CheckBox
             type="checkbox"
-            checked={isCheckedList[idx]}
-            onChange={() => handleOnChange(idx)}
+            checked={isCheckedList[idx] || false}
+            value={isCheckedList[idx] || false}
+            onChange={() => handleOnChangeCheckbox(idx)}
           />
         </label>
-        <Button primary onClick={() => handleOnRemove(idx)}>
-          Remove Item
-        </Button>
+        <Paragraph style={isCheckedList[idx] ? doneStyle.markItem : {}}>
+          {item.taskName} {item.taskDate}
+        </Paragraph>
+        <WrapItemTask>
+          <Button noMargin onClick={() => handleGetCurrentValue(idx)}>
+            Edit
+          </Button>
+          <Button noMargin onClick={() => handleOnRemove(idx)}>
+            Remove Item
+          </Button>
+        </WrapItemTask>
       </ListItem>
     );
   });
@@ -65,7 +109,7 @@ const ToDoList = () => {
   return (
     <>
       <Wrapper>
-        <Form action="" onSubmit={formSubmission}>
+        <Form action="" onSubmit={isEditting ? formSubmissionUpdate : formSubmission}>
           <Label>
             Task Name
             <Input type="text" onChange={event => setTask(event.target.value)} value={taskToDo} />
@@ -74,13 +118,25 @@ const ToDoList = () => {
             Date of ToDo
             <Input type="date" onChange={event => setDate(event.target.value)} value={dateToDo} />
           </Label>
-          <AddNew>Add Task</AddNew>
-          <Input type="text" />
+          <AddNew>{isEditting ? 'Confirm' : 'Add Task'}</AddNew>
+          {isEditting ? <AddNew onClick={() => setIsEditing(false)}>Cancel</AddNew> : ''}
         </Form>
-        {renderItems.length > 0 ? (
+        <Label full>
+          Search task
+          <Input
+            type="text"
+            placeholder="Search"
+            onChange={event => handleSearchToDoItem(event, messages, setFilteredMessage)}
+          />
+        </Label>
+        {filteredMessage.length > 0 ? (
           <List>
             {renderItems}
-            <Sorting arrayObjects={messages} setNewList={setMessage} />
+            {dateToDo.length > 0 ? (
+              <Sorting arrayObjects={filteredMessage} setNewList={setMessage} />
+            ) : (
+              ''
+            )}
           </List>
         ) : (
           ''
