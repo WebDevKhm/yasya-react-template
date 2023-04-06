@@ -36,6 +36,8 @@ export const TextArea = styled.textarea`
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   color: #101828;
+  width: 100%;
+  max-width: 768px;
   font-size: 18px;
   padding: 10px;
   margin-top: 5px;
