@@ -44,7 +44,6 @@ const ToDoList = () => {
 
   useEffect(() => {
     setFilteredMessage(messages);
-    console.log(isCheckedList);
   }, [messages]);
 
   useEffect(() => {
