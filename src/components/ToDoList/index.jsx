@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import addItemForList from './utils/addItemForList.jsx';
 import removeItemsFromList from './utils/removeItemsFromList.jsx';
-import handleSearchToDoItem from './utils/searchItemsFromList.jsx';
+import handleGetCurrentValue from './utils/handleGetCurrentValue.jsx';
+import handleOnChangeCheckbox from './utils/handleOnChangeCheckbox.jsx';
 import {
   Button,
   Wrapper,
@@ -19,10 +20,16 @@ import {
 const ToDoList = () => {
   const [taskToDo, setTask] = useState('');
   const [messages, setMessage] = useState([]);
-  const [filteredMessage, setFilteredMessage] = useState([]);
   const [isCheckedList, setCheckedList] = useState([]);
   const [currentValue, setCurrentValue] = useState('');
   const [isEditting, setIsEditing] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredMessages = useMemo(() => {
+    return messages.filter((item) =>
+      item.taskName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [messages, searchTerm]);
 
   const formSubmission = (e) => {
     e.preventDefault();
@@ -43,33 +50,17 @@ const ToDoList = () => {
   };
 
   useEffect(() => {
-    setFilteredMessage(messages);
-  }, [messages]);
-
-  useEffect(() => {
     if (currentValue) {
       setTask(currentValue.taskName);
     }
   }, [currentValue]);
-
-  const handleOnChangeCheckbox = (idx) => {
-    const newCheckedList = [...isCheckedList];
-    newCheckedList.splice(idx, 1, !isCheckedList[idx]);
-    setCheckedList(newCheckedList);
-  };
 
   const handleOnRemove = (idx) => {
     removeItemsFromList(idx, messages, setMessage);
     removeItemsFromList(idx, isCheckedList, setCheckedList);
   };
 
-  const handleGetCurrentValue = (idx) => {
-    setIsEditing(true);
-    const newTodos = [...messages];
-    setCurrentValue(newTodos[idx]);
-  };
-
-  const renderItems = filteredMessage.map((item, idx) => {
+  const renderItems = filteredMessages.map((item, idx) => {
     const doneStyle = {
       markItem: {
         textDecoration: 'line-through\n',
@@ -82,16 +73,27 @@ const ToDoList = () => {
             type="checkbox"
             checked={isCheckedList[idx] || false}
             value={isCheckedList[idx] || false}
-            onChange={() => handleOnChangeCheckbox(idx)}
+            onChange={() =>
+              handleOnChangeCheckbox(idx, isCheckedList, setCheckedList)
+            }
           />
         </label>
         <Paragraph style={isCheckedList[idx] ? doneStyle.markItem : {}}>
           {item.taskName}
         </Paragraph>
-        <Button noMargin onClick={() => handleGetCurrentValue(idx)}>
+        <Button
+          noMargin
+          onClick={() =>
+            handleGetCurrentValue(idx, setIsEditing, messages, setCurrentValue)
+          }
+        >
           Edit
         </Button>
-        <Button noMargin onClick={() => handleOnRemove(idx)}>
+        <Button
+          noMargin
+          onClick={() => handleOnRemove(idx)}
+          disabled={isEditting ? true : ''}
+        >
           Remove Item
         </Button>
       </ListItem>
@@ -124,12 +126,10 @@ const ToDoList = () => {
           <Input
             type="text"
             placeholder="Search"
-            onChange={(event) =>
-              handleSearchToDoItem(event, messages, setFilteredMessage)
-            }
+            onChange={(event) => setSearchTerm(event.target.value)}
           />
         </Label>
-        {filteredMessage.length > 0 ? <List>{renderItems}</List> : ''}
+        {filteredMessages.length > 0 ? <List>{renderItems}</List> : ''}
       </Wrapper>
     </>
   );

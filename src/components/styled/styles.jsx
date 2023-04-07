@@ -123,7 +123,7 @@ export const CheckBox = styled.input`
   border-radius: 6px;
   list-style: none;
   padding-left: 0;
-  margin: 0 5px;
+  margin: 0 10px;
   cursor: pointer;
 `;
 
@@ -145,8 +145,9 @@ export const WrapItemTask = styled.div`
 export const Paragraph = styled.p`
   display: flex;
   width: 100%;
-  max-width: 250px;
+  max-width: 65%;
   font-size: 18px;
   margin: 0;
   margin-right: auto;
+  word-break: break-word;
 `;
