@@ -1,23 +1,35 @@
-import { useState } from 'react';
+import removeItemsFromList from '../../../utils/removeItemsFromList.jsx';
 import { Button, CheckBox, ListItem, Paragraph } from '../../styled/styles.jsx';
 
 const Tasks = ({
   filteredMessages,
-  handleOnRemove,
-  checkHandler,
   handleGetCurrentValue,
-  setCurrentValue,
   messages,
+  setMessage,
+  setIsEditing,
+  setCurrentValue,
+  isEditting,
 }) => {
   let isChecked;
-  const [isEditting, setIsEditing] = useState(false);
+
+  const handleOnRemove = (idx) => {
+    removeItemsFromList(idx, messages, setMessage, true);
+  };
+
+  const checkHandler = (itemId) => {
+    setMessage((prevState) =>
+      prevState.map((item) =>
+        item.id === itemId ? { ...item, isChecked: !item.isChecked } : item
+      )
+    );
+  };
+
   return filteredMessages.map((item) => {
     const doneStyle = {
       markItem: {
         textDecoration: 'line-through\n',
       },
     };
-    console.log(item);
     return (
       <ListItem key={item.id + 1}>
         <label>

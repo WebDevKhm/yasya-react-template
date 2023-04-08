@@ -1,7 +1,6 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import addItemForList from '../../utils/addItemForList.jsx';
 import Tasks from './Tasks/index.jsx';
-import removeItemsFromList from '../../utils/removeItemsFromList.jsx';
 import handleGetCurrentValue from '../../utils/handleGetCurrentValue.jsx';
 import {
   Wrapper,
@@ -49,18 +48,6 @@ const ToDoList = () => {
     }
   }, [currentValue]);
 
-  const handleOnRemove = (idx) => {
-    removeItemsFromList(idx, messages, setMessage, true);
-  };
-
-  const checkHandler = (itemId) => {
-    setMessage((prevState) =>
-      prevState.map((item) =>
-        item.id === itemId ? { ...item, isChecked: !item.isChecked } : item
-      )
-    );
-  };
-
   return (
     <>
       <Wrapper>
@@ -95,11 +82,12 @@ const ToDoList = () => {
             {
               <Tasks
                 filteredMessages={filteredMessages}
-                handleOnRemove={handleOnRemove}
-                checkHandler={checkHandler}
                 handleGetCurrentValue={handleGetCurrentValue}
                 setCurrentValue={setCurrentValue}
                 messages={messages}
+                setMessage={setMessage}
+                setIsEditing={setIsEditing}
+                isEditting={isEditting}
               />
             }
           </List>
