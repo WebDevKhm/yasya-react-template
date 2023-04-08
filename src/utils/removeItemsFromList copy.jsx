@@ -1,6 +1,10 @@
 const removeItemsFromList = (index, arrayObjects, setMessage) => {
-  const newTodos = [...arrayObjects];
+  let newTodos = [...arrayObjects];
   newTodos.splice(index, 1);
+  newTodos = newTodos.map((item, index) => ({
+    ...item,
+    id: index + 1,
+  }));
   setMessage(newTodos);
 };
 
