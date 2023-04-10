@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import addItemForList from '../../utils/addItemForList.jsx';
+import removeItemsFromList from '../../utils/removeItemsFromList.jsx';
 import Tasks from './Tasks/index.jsx';
 import handleGetCurrentValue from '../../utils/handleGetCurrentValue.jsx';
 import {
@@ -42,6 +43,14 @@ const ToDoList = () => {
     setIsEditing(false);
   };
 
+  const checkHandler = (itemId) => {
+    setMessage((prevState) =>
+      prevState.map((item) =>
+        item.id === itemId ? { ...item, isChecked: !item.isChecked } : item
+      )
+    );
+  };
+
   useEffect(() => {
     if (currentValue) {
       setTask(currentValue.taskName);
@@ -80,15 +89,30 @@ const ToDoList = () => {
         {filteredMessages.length > 0 ? (
           <List>
             {
-              <Tasks
-                filteredMessages={filteredMessages}
-                handleGetCurrentValue={handleGetCurrentValue}
-                setCurrentValue={setCurrentValue}
-                messages={messages}
-                setMessage={setMessage}
-                setIsEditing={setIsEditing}
-                isEditting={isEditting}
-              />
+              <>
+                {filteredMessages.map((item) => {
+                  return (
+                    <Tasks
+                      item={item}
+                      key={item.id}
+                      isEditting={isEditting}
+                      setMessage={setMessage}
+                      handleEdit={() =>
+                        handleGetCurrentValue(
+                          item.id,
+                          setIsEditing,
+                          messages,
+                          setCurrentValue
+                        )
+                      }
+                      handleDelete={() =>
+                        removeItemsFromList(item.id, messages, setMessage, true)
+                      }
+                      handleCheckBoxChecking={() => checkHandler(item.id)}
+                    />
+                  );
+                })}
+              </>
             }
           </List>
         ) : (

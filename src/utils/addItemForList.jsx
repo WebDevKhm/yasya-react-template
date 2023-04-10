@@ -4,7 +4,10 @@ const addItemForList = (setMessageState, messages, name, setTask) => {
     return;
   }
   setMessageState([{ id: 0, taskName: name }]);
-  setMessageState([...messages, { id: messages.length, taskName: name }]);
+  setMessageState([
+    ...messages,
+    { id: messages.length, taskName: name, isChecked: false },
+  ]);
   setTask('');
 };
 

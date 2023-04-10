@@ -1,71 +1,55 @@
-import removeItemsFromList from '../../../utils/removeItemsFromList.jsx';
 import { Button, CheckBox, ListItem, Paragraph } from '../../styled/styles.jsx';
+import propTypes from 'prop-types';
 
 const Tasks = ({
-  filteredMessages,
-  handleGetCurrentValue,
-  messages,
-  setMessage,
-  setIsEditing,
-  setCurrentValue,
+  item,
   isEditting,
+  handleEdit,
+  handleDelete,
+  handleCheckBoxChecking,
 }) => {
-  let isChecked;
+  const { taskName, isChecked } = item;
 
-  const handleOnRemove = (idx) => {
-    removeItemsFromList(idx, messages, setMessage, true);
+  Tasks.propTypes = {
+    item: propTypes.object.isRequired,
+    setMessage: propTypes.func.isRequired,
+    handleEdit: propTypes.func.isRequired,
+    handleDelete: propTypes.func.isRequired,
+    handleCheckBoxChecking: propTypes.func.isRequired,
+    isEditting: propTypes.bool.isRequired,
   };
 
-  const checkHandler = (itemId) => {
-    setMessage((prevState) =>
-      prevState.map((item) =>
-        item.id === itemId ? { ...item, isChecked: !item.isChecked } : item
-      )
-    );
+  const doneStyle = {
+    markItem: {
+      textDecoration: 'line-through\n',
+    },
   };
-
-  return filteredMessages.map((item) => {
-    const doneStyle = {
-      markItem: {
-        textDecoration: 'line-through\n',
-      },
-    };
-    return (
-      <ListItem key={item.id + 1}>
-        <label>
-          <CheckBox
-            type="checkbox"
-            checked={item.isChecked || false}
-            value={isChecked || false}
-            onChange={() => checkHandler(item.id)}
-          />
-        </label>
-        <Paragraph style={item.isChecked ? doneStyle.markItem : {}}>
-          {item.taskName}
-        </Paragraph>
-        <Button
-          noMargin
-          onClick={() =>
-            handleGetCurrentValue(
-              item.id,
-              setIsEditing,
-              messages,
-              setCurrentValue
-            )
-          }
-        >
-          Edit
-        </Button>
-        <Button
-          noMargin
-          onClick={() => handleOnRemove(item.id)}
-          disabled={isEditting ? true : ''}
-        >
-          Remove Item
-        </Button>
-      </ListItem>
-    );
-  });
+  return (
+    <ListItem>
+      <label>
+        <CheckBox
+          type="checkbox"
+          defaultChecked={false}
+          checked={isChecked || false}
+          value={isChecked || false}
+          onChange={() => handleCheckBoxChecking()}
+        />
+      </label>
+      <Paragraph style={isChecked ? doneStyle.markItem : {}}>
+        {taskName}
+      </Paragraph>
+      <Button noMargin onClick={() => handleEdit()}>
+        Edit
+      </Button>
+      <Button
+        noMargin
+        onClick={() => handleDelete()}
+        disabled={isEditting ? true : ''}
+      >
+        Remove Item
+      </Button>
+    </ListItem>
+  );
 };
 
 export default Tasks;
