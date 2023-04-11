@@ -27,7 +27,7 @@ export const Input = styled.input`
   :focus-visible,
   :active {
     box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f4ebff;
-    ouline: none;
+    outline: 0;
   }
 `;
 
@@ -46,7 +46,7 @@ export const TextArea = styled.textarea`
   :focus-visible,
   :active {
     box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f4ebff;
-    ouline: none;
+    outline: 0;
   }
 `;
 
@@ -85,7 +85,10 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 10px;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
 `;
 
 export const AddNew = styled.button`
@@ -114,7 +117,9 @@ export const List = styled.ul`
   padding-left: 0;
   width: 100%;
   border: 1px solid;
+  overflow: hidden;
   border-radius: 8px;
+  margin: 0 auto;
 `;
 
 export const CheckBox = styled.input`
@@ -150,4 +155,28 @@ export const Paragraph = styled.p`
   margin: 0;
   margin-right: auto;
   word-break: break-word;
+`;
+
+export const WrapperFilters = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 5px 0;
+  align-items: center;
+  background: #b1d8d9;
+  padding: 10px 0;
+  gap: 2%;
+  border-radius: 8px;
+`;
+
+export const FilterButton = styled.div`
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  color: #344054;
+  font-weight: 600;
+  font-size: 16px;
 `;

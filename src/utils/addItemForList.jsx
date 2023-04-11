@@ -3,7 +3,6 @@ const addItemForList = (setMessageState, messages, name, setTask) => {
     alert('Task is empty.');
     return;
   }
-  setMessageState([{ id: 0, taskName: name }]);
   setMessageState([
     ...messages,
     { id: messages.length, taskName: name, isChecked: false },

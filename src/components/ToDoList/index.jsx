@@ -11,6 +11,8 @@ import {
   AddNew,
   List,
   TextArea,
+  FilterButton,
+  WrapperFilters,
 } from '../styled/styles.jsx';
 
 const ToDoList = () => {
@@ -19,12 +21,34 @@ const ToDoList = () => {
   const [currentValue, setCurrentValue] = useState('');
   const [isEditting, setIsEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filteringState, setFilteringState] = useState('');
 
   const filteredMessages = useMemo(() => {
-    return messages.filter((item) =>
-      item.taskName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [messages, searchTerm]);
+    const filteringTasks = (item, searchTerm) => {
+      return item.taskName.toLowerCase().includes(searchTerm.toLowerCase());
+    };
+
+    let filteredList = [];
+
+    switch (filteringState) {
+      case 'completed':
+        filteredList = messages.filter(
+          (item) => item.isChecked && filteringTasks(item, searchTerm)
+        );
+        break;
+      case 'incompleted':
+        filteredList = messages.filter(
+          (item) => !item.isChecked && filteringTasks(item, searchTerm)
+        );
+        break;
+      default:
+        filteredList = messages.filter((item) =>
+          filteringTasks(item, searchTerm)
+        );
+    }
+
+    return filteredList;
+  }, [messages, searchTerm, filteringState]);
 
   const formSubmission = (e) => {
     e.preventDefault();
@@ -57,6 +81,19 @@ const ToDoList = () => {
     }
   }, [currentValue]);
 
+  const handleFiltering = (filterHandle) => {
+    switch (filterHandle) {
+      case 'completed':
+        setFilteringState('completed');
+        break;
+      case 'incompleted':
+        setFilteringState('incompleted');
+        break;
+      default:
+        setFilteringState('all');
+    }
+  };
+
   return (
     <>
       <Wrapper>
@@ -86,37 +123,44 @@ const ToDoList = () => {
             onChange={(event) => setSearchTerm(event.target.value)}
           />
         </Label>
-        {filteredMessages.length > 0 ? (
-          <List>
-            {
-              <>
-                {filteredMessages.map((item) => {
-                  return (
-                    <Tasks
-                      item={item}
-                      key={item.id}
-                      isEditting={isEditting}
-                      setMessage={setMessage}
-                      handleEdit={() =>
-                        handleGetCurrentValue(
-                          item.id,
-                          setIsEditing,
-                          messages,
-                          setCurrentValue
-                        )
-                      }
-                      handleDelete={() =>
-                        removeItemsFromList(item.id, messages, setMessage, true)
-                      }
-                      handleCheckBoxChecking={() => checkHandler(item.id)}
-                    />
-                  );
-                })}
-              </>
-            }
-          </List>
+        {messages.length > 0 ? (
+          <>
+            <WrapperFilters>
+              <FilterButton onClick={() => handleFiltering()}>All</FilterButton>
+              <FilterButton onClick={() => handleFiltering('completed')}>
+                Completed
+              </FilterButton>
+              <FilterButton onClick={() => handleFiltering('incompleted')}>
+                In progress
+              </FilterButton>
+            </WrapperFilters>
+            <List>
+              {filteredMessages.map((item) => {
+                return (
+                  <Tasks
+                    item={item}
+                    key={item.id}
+                    isEditting={isEditting}
+                    setMessage={setMessage}
+                    handleEdit={() =>
+                      handleGetCurrentValue(
+                        item.id,
+                        setIsEditing,
+                        messages,
+                        setCurrentValue
+                      )
+                    }
+                    handleDelete={() =>
+                      removeItemsFromList(item.id, messages, setMessage, true)
+                    }
+                    handleCheckBoxChecking={() => checkHandler(item.id)}
+                  />
+                );
+              })}
+            </List>
+          </>
         ) : (
-          ''
+          'No tasks found.'
         )}
       </Wrapper>
     </>
