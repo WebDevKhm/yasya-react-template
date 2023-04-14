@@ -17,6 +17,7 @@ import {
 
 const ToDoList = () => {
   const [taskToDo, setTask] = useState('');
+  const [taskToDoEdit, setTaskEdit] = useState('');
   const [messages, setMessage] = useState([]);
   const [currentValue, setCurrentValue] = useState('');
   const [isEditting, setIsEditing] = useState(false);
@@ -57,13 +58,12 @@ const ToDoList = () => {
 
   const formSubmissionUpdate = (e) => {
     e.preventDefault();
-    messages.map((item) => {
+    filteredMessages.map((item) => {
       if (item.id === currentValue.id) {
-        item.taskName = taskToDo;
+        item.taskName = taskToDoEdit;
       }
       return item;
     });
-    setTask('');
     setIsEditing(false);
   };
 
@@ -77,7 +77,7 @@ const ToDoList = () => {
 
   useEffect(() => {
     if (currentValue) {
-      setTask(currentValue.taskName);
+      setTaskEdit(currentValue.taskName);
     }
   }, [currentValue]);
 
@@ -97,10 +97,7 @@ const ToDoList = () => {
   return (
     <>
       <Wrapper>
-        <Form
-          action=""
-          onSubmit={isEditting ? formSubmissionUpdate : formSubmission}
-        >
+        <Form action="" onSubmit={formSubmission}>
           <Label full>
             Task Name
             <TextArea
@@ -108,12 +105,7 @@ const ToDoList = () => {
               value={taskToDo}
             />
           </Label>
-          <AddNew>{isEditting ? 'Confirm' : 'Add Task'}</AddNew>
-          {isEditting ? (
-            <AddNew onClick={() => setIsEditing(false)}>Cancel</AddNew>
-          ) : (
-            ''
-          )}
+          <AddNew>Add Task</AddNew>
         </Form>
         <Label full>
           Search task
@@ -141,7 +133,12 @@ const ToDoList = () => {
                     item={item}
                     key={item.id}
                     isEditting={isEditting}
+                    setIsEditing={setIsEditing}
                     setMessage={setMessage}
+                    setTaskEdit={setTaskEdit}
+                    taskToDoEdit={taskToDoEdit}
+                    currentValue={currentValue}
+                    handleUpdate={(e) => formSubmissionUpdate(e)}
                     handleEdit={() =>
                       handleGetCurrentValue(
                         item.id,
