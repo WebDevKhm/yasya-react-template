@@ -1,11 +1,6 @@
-const handleGetCurrentValue = (
-  idx,
-  setIsEditing,
-  messages,
-  setCurrentValue
-) => {
+const handleGetCurrentValue = (idx, setIsEditing, todos, setCurrentValue) => {
   setIsEditing(true);
-  const newTodos = [...messages];
+  const newTodos = [...todos];
   setCurrentValue(newTodos[idx]);
 };
 

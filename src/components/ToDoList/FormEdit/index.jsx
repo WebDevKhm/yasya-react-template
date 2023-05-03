@@ -1,31 +1,30 @@
-import { Input, Button, Form } from '../../styled/styles.jsx';
-import propTypes from 'prop-types';
-const FormEdit = ({
-  handleUpdate,
-  taskToDoEdit,
-  setTaskEdit,
-  setIsEditing,
-}) => {
-  FormEdit.propTypes = {
-    setTaskEdit: propTypes.func.isRequired,
-    taskToDoEdit: propTypes.string.isRequired,
-    handleUpdate: propTypes.func.isRequired,
-    setIsEditing: propTypes.func.isRequired,
+import { Input, Button } from '../../styled/styles.jsx';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+
+const FormEdit = ({ handleUpdate, handleCancel, defaultValue }) => {
+  const [taskToEdit, setTaskEdit] = useState(defaultValue);
+  const handleChange = (e) => {
+    return setTaskEdit(e.target.value);
   };
 
   return (
     <>
-      <Form className="formEdit" action="" onSubmit={(e) => handleUpdate(e)}>
-        <Input
-          type="text"
-          value={taskToDoEdit}
-          onChange={(event) => setTaskEdit(event.target.value)}
-        />
-        <Button>Confirm</Button>
-        <Button onClick={() => setIsEditing(false)}>Cancel</Button>
-      </Form>
+      <Input
+        type="text"
+        value={taskToEdit}
+        onChange={(event) => handleChange(event)}
+      />
+      <Button onClick={() => handleUpdate(taskToEdit)}>Confirm</Button>
+      <Button onClick={handleCancel}>Cancel</Button>
     </>
   );
+};
+
+FormEdit.propTypes = {
+  handleUpdate: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired,
+  defaultValue: PropTypes.string.isRequired,
 };
 
 export default FormEdit;

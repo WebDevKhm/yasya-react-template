@@ -1,8 +1,15 @@
-import { useState, useMemo, useEffect } from 'react';
-import addItemForList from '../../utils/addItemForList.jsx';
-import removeItemsFromList from '../../utils/removeItemsFromList.jsx';
+import { useState, useMemo } from 'react';
 import Tasks from './Tasks/index.jsx';
 import handleGetCurrentValue from '../../utils/handleGetCurrentValue.jsx';
+import { connect } from 'react-redux';
+import {
+  addTodos,
+  removeTodos,
+  isCompleted,
+  updateTodos,
+} from '../../redux/reducer.jsx';
+import PropTypes from 'prop-types';
+
 import {
   Wrapper,
   Form,
@@ -15,14 +22,29 @@ import {
   WrapperFilters,
 } from '../styled/styles.jsx';
 
-const ToDoList = () => {
+const mapStateToProps = (state) => {
+  return {
+    todos: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (obj) => dispatch(addTodos(obj)),
+    removeTodo: (id) => dispatch(removeTodos(id)),
+    setDone: (obj) => dispatch(isCompleted(obj)),
+    updateTodo: (obj) => dispatch(updateTodos(obj)),
+  };
+};
+
+const ToDoList = (props) => {
   const [taskToDo, setTask] = useState('');
-  const [taskToDoEdit, setTaskEdit] = useState('');
-  const [messages, setMessage] = useState([]);
   const [currentValue, setCurrentValue] = useState('');
   const [isEditting, setIsEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteringState, setFilteringState] = useState('');
+
+  const { todos, addTodo, removeTodo, setDone, updateTodo } = props;
 
   const filteredMessages = useMemo(() => {
     const filteringTasks = (item, searchTerm) => {
@@ -33,53 +55,35 @@ const ToDoList = () => {
 
     switch (filteringState) {
       case 'completed':
-        filteredList = messages.filter(
+        filteredList = todos.filter(
           (item) => item.isChecked && filteringTasks(item, searchTerm)
         );
         break;
       case 'incompleted':
-        filteredList = messages.filter(
+        filteredList = todos.filter(
           (item) => !item.isChecked && filteringTasks(item, searchTerm)
         );
         break;
       default:
-        filteredList = messages.filter((item) =>
-          filteringTasks(item, searchTerm)
-        );
+        filteredList = todos.filter((item) => filteringTasks(item, searchTerm));
     }
 
     return filteredList;
-  }, [messages, searchTerm, filteringState]);
+  }, [todos, searchTerm, filteringState]);
 
   const formSubmission = (e) => {
     e.preventDefault();
-    addItemForList(setMessage, messages, taskToDo, setTask);
-  };
-
-  const formSubmissionUpdate = (e) => {
-    e.preventDefault();
-    filteredMessages.map((item) => {
-      if (item.id === currentValue.id) {
-        item.taskName = taskToDoEdit;
-      }
-      return item;
-    });
-    setIsEditing(false);
-  };
-
-  const checkHandler = (itemId) => {
-    setMessage((prevState) =>
-      prevState.map((item) =>
-        item.id === itemId ? { ...item, isChecked: !item.isChecked } : item
-      )
-    );
-  };
-
-  useEffect(() => {
-    if (currentValue) {
-      setTaskEdit(currentValue.taskName);
+    if (taskToDo === '') {
+      alert('Input is empty');
+      return;
     }
-  }, [currentValue]);
+    addTodo({
+      id: todos.length,
+      taskName: taskToDo,
+      isChecked: false,
+    });
+    setTask('');
+  };
 
   const handleFiltering = (filterHandle) => {
     switch (filterHandle) {
@@ -115,7 +119,7 @@ const ToDoList = () => {
             onChange={(event) => setSearchTerm(event.target.value)}
           />
         </Label>
-        {messages.length > 0 ? (
+        {todos.length > 0 ? (
           <>
             <WrapperFilters>
               <FilterButton onClick={() => handleFiltering()}>All</FilterButton>
@@ -132,25 +136,20 @@ const ToDoList = () => {
                   <Tasks
                     item={item}
                     key={item.id}
+                    handleDone={() => setDone(item.id)}
                     isEditting={isEditting}
                     setIsEditing={setIsEditing}
-                    setMessage={setMessage}
-                    setTaskEdit={setTaskEdit}
-                    taskToDoEdit={taskToDoEdit}
                     currentValue={currentValue}
-                    handleUpdate={(e) => formSubmissionUpdate(e)}
+                    handleUpdate={updateTodo}
                     handleEdit={() =>
                       handleGetCurrentValue(
                         item.id,
                         setIsEditing,
-                        messages,
+                        todos,
                         setCurrentValue
                       )
                     }
-                    handleDelete={() =>
-                      removeItemsFromList(item.id, messages, setMessage, true)
-                    }
-                    handleCheckBoxChecking={() => checkHandler(item.id)}
+                    handleDelete={() => removeTodo(item.id)}
                   />
                 );
               })}
@@ -164,4 +163,12 @@ const ToDoList = () => {
   );
 };
 
-export default ToDoList;
+ToDoList.propTypes = {
+  addTodo: PropTypes.func,
+  todos: PropTypes.array,
+  removeTodo: PropTypes.func,
+  setDone: PropTypes.func,
+  updateTodo: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);

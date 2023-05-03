@@ -1,32 +1,23 @@
 import { Button, CheckBox, ListItem, Paragraph } from '../../styled/styles.jsx';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import FormEdit from '../FormEdit/index.jsx';
+import { connect } from 'react-redux';
 
 const Tasks = ({
   item,
   isEditting,
   handleEdit,
   handleDelete,
-  handleCheckBoxChecking,
   setIsEditing,
-  setTaskEdit,
-  taskToDoEdit,
   currentValue,
+  handleDone,
   handleUpdate,
 }) => {
   const { id, taskName, isChecked } = item;
 
-  Tasks.propTypes = {
-    item: propTypes.object.isRequired,
-    setTaskEdit: propTypes.func.isRequired,
-    taskToDoEdit: propTypes.string.isRequired,
-    handleEdit: propTypes.func.isRequired,
-    handleDelete: propTypes.func.isRequired,
-    handleUpdate: propTypes.func.isRequired,
-    handleCheckBoxChecking: propTypes.func.isRequired,
-    isEditting: propTypes.bool.isRequired,
-    setIsEditing: propTypes.func.isRequired,
-    currentValue: propTypes.object.isRequired,
+  const onUpdate = (editTask) => {
+    handleUpdate({ editTask, id });
+    setIsEditing(false);
   };
 
   const doneStyle = {
@@ -34,24 +25,23 @@ const Tasks = ({
       textDecoration: 'line-through\n',
     },
   };
+  console.log(currentValue);
   return (
     <ListItem>
       {isEditting && currentValue.id === id ? (
         <FormEdit
-          handleUpdate={handleUpdate}
-          taskToDoEdit={taskToDoEdit}
-          setTaskEdit={setTaskEdit}
-          setIsEditing={setIsEditing}
+          handleUpdate={onUpdate}
+          defaultValue={item.taskName}
+          handleCancel={() => setIsEditing(false)}
         />
       ) : (
         <>
           <label>
             <CheckBox
               type="checkbox"
-              defaultChecked={false}
               checked={isChecked || false}
               value={isChecked || false}
-              onChange={() => handleCheckBoxChecking()}
+              onChange={() => handleDone(id)}
             />
           </label>
           <Paragraph style={isChecked ? doneStyle.markItem : {}}>
@@ -62,7 +52,7 @@ const Tasks = ({
           </Button>
           <Button
             noMargin
-            onClick={() => handleDelete()}
+            onClick={() => handleDelete(id)}
             disabled={isEditting ? true : ''}
           >
             Remove Item
@@ -73,4 +63,15 @@ const Tasks = ({
   );
 };
 
-export default Tasks;
+Tasks.propTypes = {
+  item: PropTypes.object.isRequired,
+  handleEdit: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  handleUpdate: PropTypes.func.isRequired,
+  isEditting: PropTypes.bool.isRequired,
+  setIsEditing: PropTypes.func.isRequired,
+  currentValue: PropTypes.object.isRequired || null,
+  handleDone: PropTypes.func.isRequired,
+};
+
+export default connect(null, null)(Tasks);
