@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import Tasks from './Tasks/index.jsx';
-import Filters from './Filters/Filters.jsx';
+import Tasks from '../Tasks/index.jsx';
+import Filters from '../Filters/Filters.jsx';
 import handleGetCurrentValue from '../../utils/handleGetCurrentValue.jsx';
 import { connect } from 'react-redux';
 import {

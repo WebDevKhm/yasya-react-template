@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FilterButton, WrapperFilters } from '../../styled/styles.jsx';
+import { FilterButton, WrapperFilters } from '../styled/styles.jsx';
 import PropTypes from 'prop-types';
 
 const Filters = ({ handleStateChangeFilters }) => {

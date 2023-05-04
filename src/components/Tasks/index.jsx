@@ -1,4 +1,4 @@
-import { Button, CheckBox, ListItem, Paragraph } from '../../styled/styles.jsx';
+import { Button, CheckBox, ListItem, Paragraph } from '../styled/styles.jsx';
 import PropTypes from 'prop-types';
 import FormEdit from '../FormEdit/index.jsx';
 import { connect } from 'react-redux';

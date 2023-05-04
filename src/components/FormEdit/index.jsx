@@ -1,4 +1,4 @@
-import { Input, Button } from '../../styled/styles.jsx';
+import { Input, Button } from '../styled/styles.jsx';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
