@@ -2,16 +2,22 @@ import styled from 'styled-components';
 
 export const Button = styled.button`
   /* Adapt the colors based on primary prop */
-  background: ${(props) => (props.primary ? '#FFFFFF' : '#000000')};
-  color: ${(props) => (props.primary ? '#000' : '#fff')};
+  background: ${(props) => (props.primary ? '#F4EBFF' : '#F4EBFF')};
+  color: ${(props) => (props.primary ? '#000' : '#6941C6')};
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
   margin: ${(props) => (props.noMargin ? '0 5px' : '5px')};
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   cursor: pointer;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border: 1px solid #d0d5dd;
   border-radius: 8px;
+  transition: 0.3s ease-in-out;
+
+  :hover {
+    color: #fff;
+    background: #7f56d9;
+  }
 `;
 
 export const Input = styled.input`
@@ -21,8 +27,9 @@ export const Input = styled.input`
   color: #101828;
   font-size: 18px;
   padding: 10px;
-  margin-top: 5px;
-  transition: 0.3s easy-in-out;
+  width: 100%;
+  box-sizing: border-box;
+  transition: 0.3s ease-in-out;
 
   :focus-visible,
   :active {
@@ -36,12 +43,11 @@ export const TextArea = styled.textarea`
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   color: #101828;
-  width: 100%;
-  max-width: 768px;
   font-size: 18px;
   padding: 10px;
+  min-height: 100px;
   margin-top: 5px;
-  transition: 0.3s easy-in-out;
+  transition: 0.3s ease-in-out;
 
   :focus-visible,
   :active {
@@ -55,8 +61,10 @@ export const Label = styled.label`
   flex-direction: column;
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 2%;
+  margin-bottom: 15px;
   margin-top: 2%;
+  color: #fff;
+  font-size: 20px;
   width: ${(props) => (props.full ? '100%' : '49%')};
   ::placeholder {
     color: palevioletred;
@@ -80,35 +88,37 @@ export const Form = styled.form`
 
 export const Wrapper = styled.div`
   width: 100%;
-  max-width: 800px;
+  box-sizing: border-box;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin: 0 auto;
-  padding: 10px;
+  background: #7f56d9;
   border: 1px solid #d0d5dd;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 8px;
+  margin: 0 auto;
+  margin-bottom: 10px;
 `;
 
 export const AddNew = styled.button`
-  background: #1da1f2;
-  color: #fff;
-  padding: 10px 16px;
+  background: #f9f5ff;
+  color: rgb(105, 65, 198);
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  margin: 5px;
-  cursor: pointer;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 8px;
-  border: 0;
   width: 100%;
-  transition: 0.3s easy-in-out;
+  padding: 0.7em 1em;
+  cursor: pointer;
+  border: 1px solid #f9f5ff;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out 0s;
+  transition: 0.3s ease-in-out;
 
   &:hover {
     box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-    background: #0c8bd9;
+    background: #b885f6;
+    color: #fff;
   }
 `;
 
@@ -116,10 +126,11 @@ export const List = styled.ul`
   list-style: none;
   padding-left: 0;
   width: 100%;
-  border: 1px solid;
+  border: 1px solid #7f56d9;
   overflow: hidden;
   border-radius: 8px;
-  margin: 0 auto;
+  background: rgb(244, 235, 255);
+  margin: 15px auto 0 auto;
 `;
 
 export const CheckBox = styled.input`
@@ -135,8 +146,10 @@ export const CheckBox = styled.input`
 export const ListItem = styled.li`
   display: flex;
   align-items: center;
-  padding: 5px;
-  border-bottom: 1px solid;
+  padding: 10px;
+  color: #53389e;
+  font-weight: 600;
+  font-size: 20px;
 `;
 
 export const WrapItemTask = styled.div`
@@ -161,9 +174,10 @@ export const WrapperFilters = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 0 auto 5px 0;
+  margin: 0 auto;
+  flex-wrap: wrap;
   align-items: center;
-  background: #b1d8d9;
+  background: rgb(244 235 255);
   padding: 10px 0;
   gap: 2%;
   border-radius: 8px;
@@ -171,12 +185,19 @@ export const WrapperFilters = styled.div`
 
 export const FilterButton = styled.div`
   background: #ffffff;
-  border: 1px solid #d0d5dd;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border: 1px solid #7f56d9;
+  background: #7f56d9;
   border-radius: 8px;
   padding: 10px 16px;
   cursor: pointer;
   color: #344054;
   font-weight: 600;
   font-size: 16px;
+  transition: 0.3s ease-in-out;
+  color: #fff;
+
+  :hover {
+    background: #6941c6;
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  }
 `;

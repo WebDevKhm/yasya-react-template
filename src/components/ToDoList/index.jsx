@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import Tasks from './Tasks/index.jsx';
+import Filters from './Filters/Filters.jsx';
 import handleGetCurrentValue from '../../utils/handleGetCurrentValue.jsx';
 import { connect } from 'react-redux';
 import {
@@ -18,8 +19,6 @@ import {
   AddNew,
   List,
   TextArea,
-  FilterButton,
-  WrapperFilters,
 } from '../styled/styles.jsx';
 
 const mapStateToProps = (state) => {
@@ -39,8 +38,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const ToDoList = (props) => {
   const [taskToDo, setTask] = useState('');
-  const [currentValue, setCurrentValue] = useState('');
-  const [isEditting, setIsEditing] = useState(false);
+  const [currentValue, setCurrentValue] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteringState, setFilteringState] = useState('');
 
@@ -59,7 +58,7 @@ const ToDoList = (props) => {
           (item) => item.isChecked && filteringTasks(item, searchTerm)
         );
         break;
-      case 'incompleted':
+      case 'uncompleted':
         filteredList = todos.filter(
           (item) => !item.isChecked && filteringTasks(item, searchTerm)
         );
@@ -85,25 +84,21 @@ const ToDoList = (props) => {
     setTask('');
   };
 
-  const handleFiltering = (filterHandle) => {
-    switch (filterHandle) {
-      case 'completed':
-        setFilteringState('completed');
-        break;
-      case 'incompleted':
-        setFilteringState('incompleted');
-        break;
-      default:
-        setFilteringState('all');
+  const handleStateChangeFilters = (newState) => {
+    if (filteringState !== newState) {
+      setFilteringState(newState);
     }
   };
 
   return (
-    <>
+    <div className="wrapperToDo">
+      <header>
+        <h1>TO DO List</h1>
+      </header>
       <Wrapper>
         <Form action="" onSubmit={formSubmission}>
           <Label full>
-            Task Name
+            <p className="paragraph">Task Name</p>
             <TextArea
               onChange={(event) => setTask(event.target.value)}
               value={taskToDo}
@@ -112,7 +107,8 @@ const ToDoList = (props) => {
           <AddNew>Add Task</AddNew>
         </Form>
         <Label full>
-          Search task
+          <p className="paragraph">Search task</p>
+
           <Input
             type="text"
             placeholder="Search"
@@ -121,15 +117,7 @@ const ToDoList = (props) => {
         </Label>
         {todos.length > 0 ? (
           <>
-            <WrapperFilters>
-              <FilterButton onClick={() => handleFiltering()}>All</FilterButton>
-              <FilterButton onClick={() => handleFiltering('completed')}>
-                Completed
-              </FilterButton>
-              <FilterButton onClick={() => handleFiltering('incompleted')}>
-                In progress
-              </FilterButton>
-            </WrapperFilters>
+            <Filters handleStateChangeFilters={handleStateChangeFilters} />
             <List>
               {filteredMessages.map((item) => {
                 return (
@@ -137,7 +125,7 @@ const ToDoList = (props) => {
                     item={item}
                     key={item.id}
                     handleDone={() => setDone(item.id)}
-                    isEditting={isEditting}
+                    isEditing={isEditing}
                     setIsEditing={setIsEditing}
                     currentValue={currentValue}
                     handleUpdate={updateTodo}
@@ -156,10 +144,10 @@ const ToDoList = (props) => {
             </List>
           </>
         ) : (
-          'No tasks found.'
+          <p className="not-found">No tasks found.</p>
         )}
       </Wrapper>
-    </>
+    </div>
   );
 };
 

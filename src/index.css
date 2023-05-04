@@ -22,8 +22,8 @@ main {
 #root {
   display: flex;
   align-items: center;
-  height: 100%;
-  background: #fcfcfc;
+  height: 100vh;
+  background: #f4ebff;
 }
 
 .formEdit {

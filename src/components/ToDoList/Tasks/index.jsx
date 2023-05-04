@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 const Tasks = ({
   item,
-  isEditting,
+  isEditing,
   handleEdit,
   handleDelete,
   setIsEditing,
@@ -25,10 +25,9 @@ const Tasks = ({
       textDecoration: 'line-through\n',
     },
   };
-  console.log(currentValue);
   return (
     <ListItem>
-      {isEditting && currentValue.id === id ? (
+      {isEditing && currentValue.id === id ? (
         <FormEdit
           handleUpdate={onUpdate}
           defaultValue={item.taskName}
@@ -53,7 +52,7 @@ const Tasks = ({
           <Button
             noMargin
             onClick={() => handleDelete(id)}
-            disabled={isEditting ? true : ''}
+            disabled={isEditing ? true : ''}
           >
             Remove Item
           </Button>
@@ -68,9 +67,9 @@ Tasks.propTypes = {
   handleEdit: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleUpdate: PropTypes.func.isRequired,
-  isEditting: PropTypes.bool.isRequired,
+  isEditing: PropTypes.bool.isRequired,
   setIsEditing: PropTypes.func.isRequired,
-  currentValue: PropTypes.object.isRequired || null,
+  currentValue: PropTypes.object,
   handleDone: PropTypes.func.isRequired,
 };
 
